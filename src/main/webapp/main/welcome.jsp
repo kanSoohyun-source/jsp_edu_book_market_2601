@@ -26,7 +26,9 @@
             <h3>
                 <%=tagline%>
             </h3>
+            
             <%
+                response.setIntHeader("Refresh", 5); // 페이지 새로고침 설정
                 // 1. 현재 시각 가져오기
                 LocalDateTime now = LocalDateTime.now();
                 // 2. 원하는 포멧 정의(hh -> 12시간제, HH -> 24시간제, a -> 오전/오후 표시)
