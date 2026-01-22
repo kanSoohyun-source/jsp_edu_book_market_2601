@@ -2,6 +2,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="org.example.jsp_edu_book_market_2601.DTO.Product" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,8 +23,9 @@
     </div>
     <div class="container">
         <div class="row text-center">
-            <jsp:useBean id="productDao" class="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" scope="session"/>
             <%
+                ProductRepository productDao = ProductRepository.getInstance();
+
                 // getter를 사용해서 상품 목록 불러오기
                 List<Product> products = productDao.getProducts();
                 // 반복문을 사용해서 목록 출력

@@ -1,6 +1,7 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="org.example.jsp_edu_book_market_2601.DTO.Product" %>
+<%@ page import="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,8 +22,9 @@
     </div>
     <div class="container">
         <div class="text-center">
-            <jsp:useBean id="productDao" class="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" scope="session"/>
             <%
+                ProductRepository productDao = ProductRepository.getInstance();
+
                 String productId = request.getParameter("productId");
                 Product product = productDao.getProductByID(productId);
             %>
