@@ -1,0 +1,31 @@
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>페이지 오류</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <jsp:include page="../inc/menu.jsp"/>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3 alert-danger">
+                요청하신 페이지를 찾을 수 없습니다.
+            </h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="text-center">
+            <div><%=request.getRequestURL()%></div>
+            <div><a href="../main/welcome.jsp" class="btn btn-secondary">홈으로 >> </a></div>
+        </div>
+        <hr>
+    </div>
+    <jsp:include page="../inc/footer.jsp"/>
+
+</body>
+</html>

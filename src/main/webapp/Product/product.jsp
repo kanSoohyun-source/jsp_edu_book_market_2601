@@ -3,6 +3,7 @@
 <%@ page import="org.example.jsp_edu_book_market_2601.DTO.Product" %>
 <%@ page import="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="../exception/exception_no_product.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -35,13 +36,26 @@
             <p><b>분류</b> : <%=product.getCategory()%></p>
             <p><b>재고 수</b> : <%=product.getUnitsInStock()%></p>
             <h4><%=product.getUnitPrice()%>원</h4>
-            <p><a href="#" class="btn btn-info">상품 주문 &raquo;</a>
-                <a href="./product_list.jsp" class="bnt bnt-secondary">상품 목록 &raquo;</a>
+            <p><a href="#" class="btn btn-info" id="btnAddCart">장바구니 담기 &raquo;</a>
+                <a href="../order/cart.jsp" class="btn btn-info">장바구니 가기 &raquo;</a>
+               <a href="./product_list.jsp" class="bnt bnt-secondary">상품 목록 &raquo;</a>
             </p>
+            <form name="frmAddCart" action="../order/add_cart_process.jsp" method="get">
+                <input type="hidden" name="productId" value=<%=productId%>>
+            </form>
         </div>
         <hr>
     </div>
     <jsp:include page="../inc/footer.jsp"/>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const frm = document.querySelector('form[name=frmAddCart]')
+            document.querySelector('#btnAddCart').addEventListener('click', function (event) {
+                event.preventDefault()
+                frm.submit()
+            })
+        })
+    </script>
 
 </body>
 </html>
