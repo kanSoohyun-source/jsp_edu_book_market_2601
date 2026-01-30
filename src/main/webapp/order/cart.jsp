@@ -1,9 +1,6 @@
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="org.example.jsp_edu_book_market_2601.DTO.Cart" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" %>
 <%@ page import="org.example.jsp_edu_book_market_2601.DTO.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -39,26 +36,65 @@
                       <th>소계</th>
                       <th>비고</th>
                   </tr>
+                  <%@include file="../inc/dbconn.jsp"%>
                   <%
-                      // 세션에 있는 carts에서 목록을 불러와서 반복문을 사용해서 출력
-                      List<Cart> carts = (ArrayList<Cart>) session.getAttribute("carts");
-                      if (carts == null) { // 생성된 목록이 없는 경우, 목록 생성 후 세션에 저장
-                          carts = new ArrayList<>();
-                          session.setAttribute("carts",carts);
+                      String memberId = (String) session.getAttribute("sessionMemberId");
+                      String guestId = session.getId();
+                      String sql = null;
+
+
+                      PreparedStatement preparedStatement = null;
+                      ResultSet resultSet = null;
+                      List<Cart> carts = new ArrayList<>();
+
+                      if (memberId != null) {
+                          sql = "SELECT * FROM cart WHERE member_id = ?";
+                      } else {
+                          sql = "SELECT * FROM cart WHERE guest_id = ?";
+                      }
+
+                      try {
+                          preparedStatement = connection.prepareStatement(sql);
+                          preparedStatement.setString(1, (memberId != null ? memberId : guestId));
+                          resultSet = preparedStatement.executeQuery();
+                          while (resultSet.next()) {
+                              Cart cart = Cart.builder()
+                                      .productId(resultSet.getString("product_id"))
+                                      .cartCnt(resultSet.getInt("cart_cnt")).build();
+                              carts.add(cart);
+                          }
+                      } catch (SQLException e) {
+                          throw new RuntimeException();
                       }
 
                       int sum = 0;
-                      ProductRepository productRepository = ProductRepository.getInstance();
+                      Product product = null;
                       for (Cart cart : carts) {
-                          Product product = productRepository.getProductByID(cart.getProductId());
+                          sql = "SELECT * FROM product WHERE product_id = ?";
+                          try {
+                              preparedStatement = connection.prepareStatement(sql);
+                              preparedStatement.setString(1, cart.getProductId());
+                              resultSet = preparedStatement.executeQuery();
+                              while (resultSet.next()) {
+                                  product = Product.builder().
+                                          productId(resultSet.getString("product_id")).
+                                          productName(resultSet.getString("product_name")).
+                                          description(resultSet.getString("description")).
+                                          unitPrice(Integer.parseInt(resultSet.getString("unit_price"))).
+                                          manufacturer(resultSet.getString("manufacturer")).
+                                          category(resultSet.getString("category")).
+                                          unitsInStock(Integer.parseInt(resultSet.getString("unitsIn_stock"))).
+                                          condition(resultSet.getString("condition"))
+                                          .build();
+                              }
+                          } catch (SQLException e) {
+                              throw new RuntimeException();
+                          }
                           int total = product.getUnitPrice() * cart.getCartCnt();
                           sum += total;
                   %>
 
                   <tr>
-                      <td>
-                          <input type="checkbox" name="checkProduct" value="<%=cart.getProductId()%>">
-                      </td>
                       <td>
                           <a href="../Product/product.jsp?productId=<%=product.getProductId()%>"
                              style="text-decoration: none; color: black;">
@@ -85,7 +121,7 @@
         </div>
         <hr>
     </div>
-    <jsp:include page="../inc/footer.jsp"/>
+    <%@include file="/inc/footer.jsp"%>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const btnRemoveAll = document.querySelector('#btnRemoveAll')

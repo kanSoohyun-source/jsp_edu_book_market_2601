@@ -22,6 +22,10 @@
       <%@include file="../inc/dbconn.jsp" %>
       <%
         String memberId = (String) session.getAttribute("sessionMemberId");
+        if (memberId == null) {
+          response.sendRedirect("../member/login.jsp");
+          return;
+        }
         // 인증 처리
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -184,4 +188,4 @@
   </div>
   <hr>
 </div>
-<jsp:include page="../inc/footer.jsp"/>
+<%@include file="/inc/footer.jsp"%>

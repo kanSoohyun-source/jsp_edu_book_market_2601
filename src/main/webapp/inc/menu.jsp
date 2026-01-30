@@ -1,3 +1,4 @@
+<%@ page import="java.util.UUID" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-expand badge-dark bg-dark">
   <div class="container">

@@ -4,6 +4,8 @@
   // form 태그로 전달받은 값 저장
   String memberId = request.getParameter("memberId");
   String passwd = request.getParameter("passwd");
+  String guestId = session.getId();
+
   String memberName = null;
   // 인증 처리
   PreparedStatement preparedStatement = null;
@@ -34,6 +36,19 @@
     session.setAttribute("isAuth", true);
     session.setAttribute("sessionMemberId", memberId);
     session.setAttribute("sessionName", memberName);
+    
+        sql = "UPDATE cart SET member_id = ? WHERE guest_id = ?";
+        try {
+          preparedStatement = connection.prepareStatement(sql);
+          preparedStatement.setString(1,memberId);
+          preparedStatement.setString(2, guestId);
+          preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+        }
+
+
 
     // 로그인 성공
     response.sendRedirect("result_member.jsp?msg=2");

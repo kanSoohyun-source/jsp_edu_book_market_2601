@@ -68,7 +68,7 @@
         </div>
         <hr>
     </div>
-    <jsp:include page="../inc/footer.jsp"/>
+    <%@include file="/inc/footer.jsp"%>
 
 </body>
 </html>

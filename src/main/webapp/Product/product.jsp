@@ -71,7 +71,7 @@
     </div>
     <hr>
 </div>
-<jsp:include page="../inc/footer.jsp"/>
+<%@include file="/inc/footer.jsp"%>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const frm = document.querySelector('form[name=frmAddCart]')

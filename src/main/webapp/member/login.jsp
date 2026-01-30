@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <jsp:include page="../inc/menu.jsp"/>
+    <%@include file="../inc/menu.jsp"%>
 
     <div class="jumbotron">
         <div class="container">
@@ -51,7 +51,7 @@
         </div>
         <hr>
     </div>
-    <jsp:include page="../inc/footer.jsp"/>
+    <%@include file="/inc/footer.jsp"%>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const frm = document.querySelector('form[name=frmLogin]') // form 태그 호출

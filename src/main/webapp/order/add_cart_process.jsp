@@ -1,54 +1,87 @@
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.ProductRepository" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Product" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Cart" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../inc/dbconn.jsp"%>
+
 <%
     String productId = request.getParameter("productId");
-    // productId 유효성 검사
-    if (productId == null || productId.trim().isEmpty()) { // null 이거나, 빈 문자열이 들어온 경우
-        response.sendRedirect("../Product/product_list.jsp");
-        return;
-    }
 
-    // productId 존재 여부
-    ProductRepository productRepository = ProductRepository.getInstance();
-    Product product = productRepository.getProductByID(productId);
+    // productId 존재 여부 -> product 테이블에서 확인
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
 
-    if (product == null) { // productId가 없는 경우
-        response.sendRedirect("../exception/exception_no_product.jsp");
-        return;
+    String sql = "SELECT * FROM product WHERE product_id = ?"; // 상품 아이디 유효성
+
+    try {
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, productId);
+        resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) { // 올바른 상품 아이디
+
+        } else { // 올바르지 않은 상품 아이디
+             response.sendRedirect("../exception/exception_no_product.jsp");
+             return;
+        }
+    } catch (SQLException e) {
+
     }
+    String memberId = (String) session.getAttribute("sessionMemberId");
+    String guestId = session.getId();
 
     // 장바구니에 추가
-    // 장바구니를 session으로 구현
-    List<Cart> carts = (ArrayList<Cart>) session.getAttribute("carts");
-    if (carts == null) { // 생성된 목록이 없는 경우, 목록 생성 후 세션에 저장
-        carts = new ArrayList<>();
-        session.setAttribute("carts",carts);
-    }
+    // 로그인한 사용자의 데이터에 productId 상품이 있는지
+    boolean isflag = false;
+    int cno = -1;
+    sql = "SELECT * FROM cart WHERE product_id = ? AND (member_id = ? OR guest_id = ?)"; // cart 테이블에 상품이 있는지 확인
 
-    boolean isFlag = false;
-    for (Cart cart : carts) {
-        if (cart.getProductId().equals(productId)) {
-            // 장바구니에 담긴 상품 - update
-            cart.setCartCnt(cart.getCartCnt() + 1);
-            isFlag = true;
+    try {
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, productId);
+        preparedStatement.setString(2, memberId);
+        preparedStatement.setString(3, guestId);
+        resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            isflag = true;
+            cno = resultSet.getInt("cno");
+        } else {
+
         }
+
+    } catch (SQLException e) {
+
     }
 
-    if (!isFlag) {
-        // 장바구니에 안 담긴 상품 - insert
-        carts.add(new Cart(productId, 1));
+    if (isflag) {
+        // 상품이 있으면 갯수 추가
+        sql = "UPDATE cart SET cart_cnt = cart_cnt + 1 WHERE cno = ?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, cno);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+        }
+    } else {
+        // 상품이 없으면 상품 추가
+        if (memberId != null) { // 로그인 상태
+            sql = "INSERT INTO cart (member_id, product_id, cart_cnt) VALUES (?, ?, 1)";
+        } else { // 비로그인
+            sql = "INSERT INTO cart (guest_id, product_id, cart_cnt) VALUES (?, ?, 1)";
+        }
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, (memberId != null ? memberId : guestId));
+            preparedStatement.setString(2, productId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+        }
+
     }
-
-
-
 
      // 상품 상세 페이지로 이동
      response.sendRedirect("../Product/product.jsp?productId=" + productId);
-
-
 
 %>

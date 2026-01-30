@@ -9,7 +9,8 @@ import lombok.extern.log4j.Log4j2;
 @NoArgsConstructor
 
 public class Cart {
+    private int cno; // 일련번호
+    private String memberId; // 아이디
     private String productId; // 상품 아이디
     private int cartCnt; // 장바구니에 담은 갯수
-
 }

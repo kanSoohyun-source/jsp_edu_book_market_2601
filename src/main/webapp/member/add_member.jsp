@@ -121,7 +121,7 @@
         </div>
         <hr>
     </div>
-    <jsp:include page="../inc/footer.jsp"/>
+    <%@include file="/inc/footer.jsp"%>
     <script>
         // 빈 문자열 검사
         document.addEventListener("submit", function(event) {
