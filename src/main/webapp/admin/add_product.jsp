@@ -21,16 +21,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                    <!--
-                        private String productId; // 상품 아이디
-                        private String productName; // 상품명
-                        private int unitPrice; // 상품 가격
-                        private String description; // 상품 설명
-                        private String manufacturer; // 제조사
-                        private String category; // 분료
-                        private int unitsInStock; // 재고 수
-                        private String condition; // 신상 / 중고 / 재생품
-                    -->
                 <form name="formAddProduct" action="add_product_process.jsp" method="post" class="form-horizontal">
                     <div class="form-group row">
                         <label class="col-sm-2" for="productId">상품 코드</label>

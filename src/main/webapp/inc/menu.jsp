@@ -21,6 +21,8 @@
           }
         %>
         <li class="nav-item"><a class="nav-link" href="../Product/product_list.jsp">상품 목록</a></li>
+        <li class="nav-item"><a class="nav-link" href="../admin/add_product.jsp">상품 등록</a></li>
+        <li class="nav-item"><a class="nav-link" href="../admin/product_list.jsp">상품 수정</a></li>
         <li class="nav-item"><a class="nav-link" href="../order/cart.jsp">장바구니</a></li>
       </ul>
     </div>

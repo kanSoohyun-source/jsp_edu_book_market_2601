@@ -1,5 +1,3 @@
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -93,9 +91,21 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2" for="address">주소</label>
+                        <label class="col-sm-2" for="zipCode">우편번호</label>
                         <div class="col-sm-5">
-                            <input type="text" name="address" id="address" class="form-control">
+                            <input type="text" name="zipCode" id="zipCode" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2" for="address01">주소 01</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="address01" id="address01" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2" for="address02">주소 02</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="address02" id="address02" class="form-control">
                         </div>
                     </div>
 
@@ -112,6 +122,45 @@
         <hr>
     </div>
     <jsp:include page="../inc/footer.jsp"/>
+    <script>
+        // 빈 문자열 검사
+        document.addEventListener("submit", function(event) {
+            // 1. 아이디 체크
+            const memberId = document.getElementById("memberId").value;
+            if (memberId.trim() === "") {
+                alert("아이디를 입력해주세요.");
+                document.getElementById("memberId").focus();
+                event.preventDefault();
+                return;
+            }
 
+            // 2. 비밀번호 체크
+            const passwd = document.getElementById("passwd").value;
+            if (passwd.trim() === "") {
+                alert("비밀번호를 입력해주세요.");
+                document.getElementById("passwd").focus();
+                event.preventDefault();
+                return;
+            }
+
+            // 3. 비밀번호 확인(일치 여부) 체크
+            const passwdConfirm = document.getElementById("passwdConfirm").value;
+            if (passwd !== passwdConfirm) {
+                alert("비밀번호가 일치하지 않습니다.");
+                document.getElementById("passwdConfirm").focus();
+                event.preventDefault();
+                return;
+            }
+
+            // 4. 이름 체크
+            const memberName = document.getElementById("memberName").value;
+            if (memberName.trim() === "") {
+                alert("이름을 입력해주세요.");
+                document.getElementById("memberName").focus();
+                event.preventDefault();
+                return;
+            }
+        })
+    </script>
 </body>
 </html>

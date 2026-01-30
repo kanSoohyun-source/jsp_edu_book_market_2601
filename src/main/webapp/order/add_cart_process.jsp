@@ -28,11 +28,26 @@
         carts = new ArrayList<>();
         session.setAttribute("carts",carts);
     }
-    carts.add(new Cart(productId, 1));
-    out.println(product);
 
-    // 상품 상세 페이지로 이동
-    // response.sendRedirect("../Product/product.jsp?productId=" + productId);
+    boolean isFlag = false;
+    for (Cart cart : carts) {
+        if (cart.getProductId().equals(productId)) {
+            // 장바구니에 담긴 상품 - update
+            cart.setCartCnt(cart.getCartCnt() + 1);
+            isFlag = true;
+        }
+    }
+
+    if (!isFlag) {
+        // 장바구니에 안 담긴 상품 - insert
+        carts.add(new Cart(productId, 1));
+    }
+
+
+
+
+     // 상품 상세 페이지로 이동
+     response.sendRedirect("../Product/product.jsp?productId=" + productId);
 
 
 

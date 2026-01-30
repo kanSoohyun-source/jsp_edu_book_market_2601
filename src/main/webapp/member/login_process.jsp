@@ -1,27 +1,39 @@
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.MemberRepository" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Member" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../inc/dbconn.jsp" %>
 <%
   // form 태그로 전달받은 값 저장
   String memberId = request.getParameter("memberId");
   String passwd = request.getParameter("passwd");
+  String memberName = null;
   // 인증 처리
-  MemberRepository memberRepository = MemberRepository.getInstance();
-  Member member = memberRepository.getMemberById(memberId);
+  PreparedStatement preparedStatement = null;
+  ResultSet resultSet = null;
+  boolean isAuth = false;
 
-  boolean isAuth = false; // 인증 처리 결과
+  String sql = "SELECT * FROM member WHERE member_id = ?";
+  try {
+    preparedStatement = connection.prepareStatement(sql);
+    preparedStatement.setString(1, memberId);
+    resultSet = preparedStatement.executeQuery();
 
-  if (member != null && passwd.equals(member.getPasswd())) {
-    isAuth = true;
+    if (resultSet.next()) {
+      if (resultSet.getString("passwd").equals(passwd)) {
+        memberName = resultSet.getString("member_name");
+        isAuth = true;
+      }
+    } else {
+
+    }
+
+  } catch (SQLException e) {
+
   }
-
-
 
   // 인증 처리에 따른 페이지 이동
   if (isAuth) { // 인증 성공 -> 사용자가 입력한 아이디와 비번이 데이터 베이스에 저장된 정보와 동일
     session.setAttribute("isAuth", true);
     session.setAttribute("sessionMemberId", memberId);
-    session.setAttribute("sessionName", member.getMemberName());
+    session.setAttribute("sessionName", memberName);
 
     // 로그인 성공
     response.sendRedirect("result_member.jsp?msg=2");

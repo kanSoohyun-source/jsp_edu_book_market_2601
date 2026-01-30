@@ -1,11 +1,4 @@
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Member" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.MemberRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--
-1. 넘어온 form 값을 변수 처리
-2. DTO에 저장 (Member)
-4. 목록으로 이동(/member/result_list.jsp)
---%>
 <%@include file="../inc/dbconn.jsp" %>
 <%
   // 넘어온 form 값을 변수 처리
@@ -30,27 +23,26 @@
 
   // DB 저장
   PreparedStatement preparedStatement = null;
-  String sql = "INSERT INTO member " +
-          "(member_id, passwd, member_name, gender, birthday, email, phone, zip_code, address01, address02, add_date) " +
-          "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now()) ";
+  String sql = "UPDATE member SET passwd = ?, member_name = ?, gender = ?, birthday = ?, email = ? " +
+          ", phone = ?, zip_code = ?, address01 = ?, address02 = ? WHERE member_id = ?";
 
   try {
     preparedStatement = connection.prepareStatement(sql);
-    preparedStatement.setString(1, memberId);
-    preparedStatement.setString(2, passwd);
-    preparedStatement.setString(3, memberName);
-    preparedStatement.setString(4, gender);
-    preparedStatement.setString(5, birthDay);
-    preparedStatement.setString(6, email);
-    preparedStatement.setString(7, phone);
-    preparedStatement.setString(8, zipCode);
-    preparedStatement.setString(9, address01);
-    preparedStatement.setString(10, address02);
+    preparedStatement.setString(1, passwd);
+    preparedStatement.setString(2, memberName);
+    preparedStatement.setString(3, gender);
+    preparedStatement.setString(4, birthDay);
+    preparedStatement.setString(5, email);
+    preparedStatement.setString(6, phone);
+    preparedStatement.setString(7, zipCode);
+    preparedStatement.setString(8, address01);
+    preparedStatement.setString(9, address02);
+    preparedStatement.setString(10, memberId);
 
     if (preparedStatement.executeUpdate() == 1) {
-      response.sendRedirect("../member/result_member.jsp?msg=1");
+      response.sendRedirect("../member/modify_member.jsp");
     } else {
-      response.sendRedirect("../member/add_member.jsp");
+      response.sendRedirect("../main/welcome.jsp");
     }
 
   } catch (SQLException e) {

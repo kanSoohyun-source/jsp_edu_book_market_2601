@@ -51,11 +51,15 @@
                 for (Product product : products) {
             %>
                     <div class="col-md-4">
-                    <h3><%=product.getProductName()%></h3>
-                    <p><%=product.getDescription()%></p>
-                    <p><%=product.getUnitPrice()%></p>
-                    <p><a href="./product.jsp?productId=<%=product.getProductId()%>"
-                          class="btn btn-secondary" role="button">상세 정보 보기</a></p>
+                        <h3><%=product.getProductName()%></h3>
+                        <p><%=product.getDescription()%></p>
+                        <p><%=product.getUnitPrice()%></p>
+                        <p>
+                            <a href="./modify_product.jsp?productId=<%=product.getProductId()%>"
+                              class="btn btn-secondary" role="button">수정</a>
+                            <a href="./remove_product_process.jsp?productId=<%=product.getProductId()%>"
+                              class="btn btn-danger" role="button">삭제</a>
+                        </p>
                     </div>
             <%
                 }
