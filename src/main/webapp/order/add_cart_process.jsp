@@ -1,5 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../inc/dbconn.jsp"%>
+<%!
+    String getCookie(Cookie[] cookies, String name) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("guestId")) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
+%>
 
 <%
     String productId = request.getParameter("productId");
@@ -25,7 +35,7 @@
 
     }
     String memberId = (String) session.getAttribute("sessionMemberId");
-    String guestId = session.getId();
+    String guestId = getCookie(request.getCookies(), "guestId");
 
     // 장바구니에 추가
     // 로그인한 사용자의 데이터에 productId 상품이 있는지

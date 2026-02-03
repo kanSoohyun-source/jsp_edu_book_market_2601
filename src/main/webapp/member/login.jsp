@@ -27,7 +27,7 @@
                         out.println("<div>아이디 또는 비밀번호가 틀렸습니다.</div>");
                     }
                 %>
-                <form name="frmLogin" action="login_process.jsp" method="post" class="form-horizontal">
+                <form name="frmLogin" action="/member/loginProcess" method="post" class="form-horizontal">
                     <div class="form-group row">
                         <label class="col-sm-2" for="memberId">아이디</label>
                         <div class="col-sm-5">
@@ -51,7 +51,7 @@
         </div>
         <hr>
     </div>
-    <%@include file="/inc/footer.jsp"%>
+    <%@include file="../inc/footer.jsp"%>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const frm = document.querySelector('form[name=frmLogin]') // form 태그 호출

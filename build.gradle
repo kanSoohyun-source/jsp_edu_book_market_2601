@@ -40,6 +40,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client DB 추가
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.3'
 
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation("org.modelmapper:modelmapper:3.1.1")
+
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
 }
 
 test {

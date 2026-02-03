@@ -1,8 +1,3 @@
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.MemberRepository" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Member" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -41,13 +36,12 @@
                     out.println("<h2 class='alert alert-danger'>회원정보가 삭제되었습니다.</h2>");
                 }
 
-                MemberRepository memberDao = MemberRepository.getInstance();
 
             %>
 
         <hr>
     </div>
-    <%@include file="/inc/footer.jsp"%>
+    <%@include file="../inc/footer.jsp"%>
 
 </body>
 </html>

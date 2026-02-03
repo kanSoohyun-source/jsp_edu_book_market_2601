@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <form name="formAddMember" action="add_member_process.jsp" method="post" class="form-horizontal">
+                <form name="formAddMember" action="/member/addMemberProcess" method="post" class="form-horizontal">
                     <div class="form-group row">
                         <label class="col-sm-2" for="memberId">아이디</label>
                         <div class="col-sm-5">
@@ -121,7 +121,7 @@
         </div>
         <hr>
     </div>
-    <%@include file="/inc/footer.jsp"%>
+    <%@include file="../inc/footer.jsp"%>
     <script>
         // 빈 문자열 검사
         document.addEventListener("submit", function(event) {

@@ -37,9 +37,19 @@
                       <th>비고</th>
                   </tr>
                   <%@include file="../inc/dbconn.jsp"%>
+                    <%!
+                        String getCookie(Cookie[] cookies, String name) {
+                            for (Cookie cookie : cookies) {
+                                if (cookie.getName().equals("guestId")) {
+                                    return cookie.getValue();
+                                }
+                            }
+                            return null;
+                        }
+                    %>
                   <%
                       String memberId = (String) session.getAttribute("sessionMemberId");
-                      String guestId = session.getId();
+                      String guestId = getCookie(request.getCookies(), "guestId");
                       String sql = null;
 
 
@@ -121,7 +131,7 @@
         </div>
         <hr>
     </div>
-    <%@include file="/inc/footer.jsp"%>
+    <%@include file="../inc/footer.jsp"%>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const btnRemoveAll = document.querySelector('#btnRemoveAll')

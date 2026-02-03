@@ -1,5 +1,3 @@
-<%@ page import="org.example.jsp_edu_book_market_2601.DTO.Member" %>
-<%@ page import="org.example.jsp_edu_book_market_2601.DAO.MemberRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
 1. 넘어온 form 값을 변수 처리

@@ -36,7 +36,7 @@
     session.setAttribute("isAuth", true);
     session.setAttribute("sessionMemberId", memberId);
     session.setAttribute("sessionName", memberName);
-    
+
         sql = "UPDATE cart SET member_id = ? WHERE guest_id = ?";
         try {
           preparedStatement = connection.prepareStatement(sql);

@@ -59,7 +59,7 @@
 
         }
       %>
-      <form name="formAddMember" action="modify_member_process.jsp" method="post" class="form-horizontal">
+      <form name="formAddMember" action="/member/modifyMember" method="post" class="form-horizontal">
         <div class="form-group row">
           <label class="col-sm-2" for="memberId">아이디</label>
           <div class="col-sm-5">
@@ -188,4 +188,4 @@
   </div>
   <hr>
 </div>
-<%@include file="/inc/footer.jsp"%>
+<%@include file="../inc/footer.jsp"%>
