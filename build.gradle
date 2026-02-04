@@ -37,7 +37,8 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
     implementation 'org.apache.logging.log4j:log4j-core:2.24.3'
 
-    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client DB 추가
+    // Maria DB 추가
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.3'
 
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
