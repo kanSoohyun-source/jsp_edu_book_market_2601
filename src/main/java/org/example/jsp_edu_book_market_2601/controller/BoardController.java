@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.example.jsp_edu_book_market_2601.DTO.BoardDTO;
+import org.example.jsp_edu_book_market_2601.DTO.PageRequestDTO;
+import org.example.jsp_edu_book_market_2601.DTO.PageResponseDTO;
 import org.example.jsp_edu_book_market_2601.service.BoardService;
 
 import java.io.IOException;
@@ -41,16 +43,32 @@ public class BoardController extends HttpServlet {
 
         switch (command) {
             case "/board/boardList.do" -> { // 게시판 목록
-                log.info("게시글 조회 요청");
+                log.info("boardList");
 
-                boardService.getBoardList(req);
+                /* 게시글 목록을 가져오는 메서드 */
+                // 1. request에서 값 추출 (페이지 번호, 검색 항목, 검색어 등)
+                String items = req.getParameter("items");
+                String keyword = req.getParameter("keyword");
+                int pageNum = 1;
+                if (req.getParameter("pageNum") != null) {
+                    pageNum = Integer.parseInt(req.getParameter("pageNum"));
+                }
+
+                PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                        .items(items).keyword(keyword).pageNum(pageNum).build();
+
+
+
+                PageResponseDTO pageResponseDTO = boardService.getBoardList(pageRequestDTO);
+                // 전달
+                req.setAttribute("pageResponseDTO", pageResponseDTO);
 
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/board/list.jsp");
                 requestDispatcher.forward(req, resp);
             }
             case "/board/boardAddForm.do" -> {
                 // 게시글 작성 폼을 요청하는 경우
-                log.info("게시글 작성 폼 요청");
+                log.info("board add form");
 
                 // 로그인 안 한 경우 로그인 페이지로 이동
                 if (sessionMemberId == null || sessionMemberId.trim().isEmpty()) {
@@ -64,7 +82,7 @@ public class BoardController extends HttpServlet {
 
             case "/board/boardAdd.do" -> {
                 // 게시글 등록을 원하는 경우 -> 작성 폼의 action 경로
-                log.info("게시글 등록");
+                log.info("board add");
 
                 if (sessionMemberId == null || sessionMemberId.trim().isEmpty()) {
                     resp.sendRedirect("/member/login.jsp");
@@ -97,7 +115,7 @@ public class BoardController extends HttpServlet {
             }
             case "/board/boardModifyForm.do" -> {
                 // 수정 폼
-                log.info("게시글 수정 폼 요청");
+                log.info("board modify form");
                 int bno = Integer.parseInt(req.getParameter("bno"));
                 BoardDTO boardDTO = boardService.getBoard(bno);
 
@@ -113,7 +131,7 @@ public class BoardController extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/board/modify.jsp").forward(req, resp);
             }
             case "/board/boardModify.do" -> {
-                log.info("게시글 수정 처리");
+                log.info("board modify");
 
                 int bno = Integer.parseInt(req.getParameter("bno"));
                 BoardDTO boardDTO = boardService.getBoard(bno);

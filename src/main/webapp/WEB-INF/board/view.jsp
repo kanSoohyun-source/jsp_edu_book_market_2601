@@ -2,8 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     BoardDTO board = (BoardDTO) request.getAttribute("board");
-    String pageNum = request.getParameter("pageNum");
+    int pageNum = Integer.parseInt(request.getParameter("pageNum"));
     String sessionMemberId = (String) session.getAttribute("sessionMemberId");
+    String items = request.getParameter("items") != null ? request.getParameter("items") : "";
+    String keyword = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -65,7 +67,7 @@
                         <%
                             }
                         %>
-                        <a href="./boardList.do?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
+                        <a href="./boardList.do?pageNum=<%=pageNum%>&items=<%=items%>&keyword=<%=keyword%>" class="btn btn-primary">목록</a>
                     </div>
                 </div>
             </div>
